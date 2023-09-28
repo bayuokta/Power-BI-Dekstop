@@ -1,0 +1,132 @@
+{
+  "compatibilityLevel": 1550,
+  "model": {
+    "annotations": [
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "0"
+      },
+      {
+        "name": "PBIDesktopVersion",
+        "value": "2.121.644.0 (23.09)"
+      },
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"Territory Lookup\"]"
+      },
+      {
+        "name": "PBI_ProTooling",
+        "value": "[\"DevMode\"]"
+      }
+    ],
+    "culture": "en-US",
+    "cultures": [
+      {
+        "name": "en-US",
+        "linguisticMetadata": {
+          "content": {
+            "DynamicImprovement": "HighConfidence",
+            "Language": "en-US",
+            "Version": "1.0.0"
+          },
+          "contentType": "json"
+        }
+      }
+    ],
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "sourceQueryCulture": "en-US",
+    "tables": [
+      {
+        "name": "Territory Lookup",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Sales Territory Key",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "5940f242-c3b7-4be6-87b5-7a017e4a13e9",
+            "sourceColumn": "Sales Territory Key",
+            "summarizeBy": "count"
+          },
+          {
+            "name": "Region",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "9100f4e0-a269-44ea-a928-eb1f36f0bf8e",
+            "sourceColumn": "Region",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Country",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "38371130-1b6f-490e-a471-34371ca03991",
+            "sourceColumn": "Country",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Continent",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "891de73e-b438-410d-bd76-32e2220be914",
+            "sourceColumn": "Continent",
+            "summarizeBy": "none"
+          }
+        ],
+        "lineageTag": "a87488dc-4917-45e0-b76f-40d64909d39d",
+        "partitions": [
+          {
+            "name": "Territory Lookup",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"D:\\Datasets\\AdventureWorks Raw Data\\AdventureWorks Territory Lookup.csv\"),[Delimiter=\",\", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"SalesTerritoryKey\", Int64.Type}, {\"Region\", type text}, {\"Country\", type text}, {\"Continent\", type text}}),",
+                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"SalesTerritoryKey\", \"Sales Territory Key\"}})",
+                "in",
+                "    #\"Renamed Columns\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
