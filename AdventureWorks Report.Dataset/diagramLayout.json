@@ -11,12 +11,51 @@
         {
           "location": {
             "x": 0,
-            "y": 0
+            "y": 62
           },
           "nodeIndex": "Territory Lookup",
           "nodeLineageTag": "a87488dc-4917-45e0-b76f-40d64909d39d",
           "size": {
             "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 284,
+            "y": 0
+          },
+          "nodeIndex": "Product Lookup",
+          "nodeLineageTag": "9e21aa4c-5f28-442d-bcfa-50033bcde422",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 86
+          },
+          "nodeIndex": "Product Categories Lookup",
+          "nodeLineageTag": "296f0f78-4cbc-4aa7-96d5-a1e6032169a7",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 74
+          },
+          "nodeIndex": "Product Subcategories Lookup",
+          "nodeLineageTag": "80ec2dfb-8ac1-4a25-9c79-d4fdb328dc7a",
+          "size": {
+            "height": 152,
             "width": 234
           },
           "zIndex": 0
