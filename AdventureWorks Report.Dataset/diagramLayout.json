@@ -98,6 +98,57 @@
             "width": 234
           },
           "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1988,
+            "y": 2
+          },
+          "nodeIndex": "Sales Data 2022",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2272,
+            "y": 14
+          },
+          "nodeIndex": "Sales Data 2020",
+          "nodeLineageTag": "bf20fe5f-8993-4364-a1ed-c7015576ddfb",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2556,
+            "y": 14
+          },
+          "nodeIndex": "Sales Data 2020 - 2022",
+          "nodeLineageTag": "88797953-25ed-42bc-b2d5-c21ad3ef9865",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2840,
+            "y": 14
+          },
+          "nodeIndex": "Sales Data 2021",
+          "nodeLineageTag": "0c40de1c-c6a8-43fb-8fa7-c53c5b18e6b1",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
         }
       ],
       "name": "All tables",
