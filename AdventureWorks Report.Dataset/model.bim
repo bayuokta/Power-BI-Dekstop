@@ -8,11 +8,11 @@
       },
       {
         "name": "PBIDesktopVersion",
-        "value": "2.121.644.0 (23.09)"
+        "value": "2.122.746.0 (23.10)"
       },
       {
         "name": "PBI_QueryOrder",
-        "value": "[\"Territory Lookup\",\"Product Lookup\",\"Product Categories Lookup\",\"Product Subcategories Lookup\",\"Customer Lookup\",\"Largest Asset Management Firms\",\"Calendar Lookup\",\"Rolling Calendar\",\"Sales Data 2022\",\"Product Category Sales (Unpivot Demo)\",\"Sales Data 2021\",\"Sales Data 2020\",\"Sales Data 2020 - 2022\"]"
+        "value": "[\"Territory Lookup\",\"Product Lookup\",\"Product Categories Lookup\",\"Product Subcategories Lookup\",\"Customer Lookup\",\"Largest Asset Management Firms\",\"Calendar Lookup\",\"Rolling Calendar\",\"Product Category Sales (Unpivot Demo)\",\"Sales Data\",\"Sample File\",\"Parameter1\",\"Transform Sample File\",\"Transform File\"]"
       },
       {
         "name": "PBI_ProTooling",
@@ -87,6 +87,92 @@
         "kind": "m",
         "lineageTag": "751dcd2d-ebdb-4d31-a79d-8d8edf40b6da",
         "queryGroup": "Demo Queries"
+      },
+      {
+        "name": "Sample File",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Binary"
+          }
+        ],
+        "expression": [
+          "let",
+          "    Source = Folder.Files(\"D:\\Datasets\\AdventureWorks Raw Data\\Sales Data\"),",
+          "    Navigation1 = Source{0}[Content]",
+          "in",
+          "    Navigation1"
+        ],
+        "kind": "m",
+        "lineageTag": "bdea8828-6bb3-4651-9358-499e3ad97ed4",
+        "queryGroup": "Transform File from Sales Data\\Helper Queries"
+      },
+      {
+        "name": "Parameter1",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Binary"
+          }
+        ],
+        "expression": "#\"Sample File\" meta [IsParameterQuery=true, BinaryIdentifier=#\"Sample File\", Type=\"Binary\", IsParameterQueryRequired=true]",
+        "kind": "m",
+        "lineageTag": "62af8244-cae0-4d69-8484-e6427911b4b8",
+        "queryGroup": "Transform File from Sales Data\\Helper Queries"
+      },
+      {
+        "name": "Transform Sample File",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    Source = Csv.Document(Parameter1,[Delimiter=\",\", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+          "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
+          "in",
+          "    #\"Promoted Headers\""
+        ],
+        "kind": "m",
+        "lineageTag": "f18e5a44-ec5b-4b7e-a088-4bbb381103e7",
+        "queryGroup": "Transform File from Sales Data"
+      },
+      {
+        "name": "Transform File",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Function"
+          }
+        ],
+        "expression": [
+          "let",
+          "    Source = (Parameter1 as binary) => let",
+          "    Source = Csv.Document(Parameter1,[Delimiter=\",\", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+          "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
+          "in",
+          "    #\"Promoted Headers\"",
+          "in",
+          "    Source"
+        ],
+        "kind": "m",
+        "lineageTag": "d6f25cc5-50a7-4886-95d1-08e851490eb8",
+        "mAttributes": "[ FunctionQueryBinding = \"{\"\"exemplarFormulaName\"\":\"\"Transform Sample File\"\"}\" ]",
+        "queryGroup": "Transform File from Sales Data\\Helper Queries"
       }
     ],
     "queryGroups": [
@@ -98,6 +184,24 @@
           }
         ],
         "folder": "Demo Queries"
+      },
+      {
+        "annotations": [
+          {
+            "name": "PBI_QueryGroupOrder",
+            "value": "1"
+          }
+        ],
+        "folder": "Transform File from Sales Data"
+      },
+      {
+        "annotations": [
+          {
+            "name": "PBI_QueryGroupOrder",
+            "value": "0"
+          }
+        ],
+        "folder": "Transform File from Sales Data\\Helper Queries"
       }
     ],
     "sourceQueryCulture": "en-US",
@@ -1041,12 +1145,8 @@
         ]
       },
       {
-        "name": "Sales Data 2022",
+        "name": "Sales Data",
         "annotations": [
-          {
-            "name": "PBI_NavigationStepName",
-            "value": "Navigation"
-          },
           {
             "name": "PBI_ResultType",
             "value": "Table"
@@ -1067,7 +1167,7 @@
             ],
             "dataType": "dateTime",
             "formatString": "Long Date",
-            "lineageTag": "8da6157d-af03-4220-a53a-1e098caae208",
+            "lineageTag": "ad3a7965-21f8-4471-b766-2ea5ee7c6f8f",
             "sourceColumn": "OrderDate",
             "summarizeBy": "none"
           },
@@ -1085,7 +1185,7 @@
             ],
             "dataType": "dateTime",
             "formatString": "Long Date",
-            "lineageTag": "8c0dd810-a826-45cd-a8b3-19ad65869409",
+            "lineageTag": "8d7c1fba-37ac-4b65-a8d7-956a1a199e49",
             "sourceColumn": "StockDate",
             "summarizeBy": "none"
           },
@@ -1098,7 +1198,7 @@
               }
             ],
             "dataType": "string",
-            "lineageTag": "7065bf4a-c3d8-467f-8c44-21bbb987df4b",
+            "lineageTag": "48eac8c1-b746-4680-bf83-11ff30994f5b",
             "sourceColumn": "OrderNumber",
             "summarizeBy": "none"
           },
@@ -1112,7 +1212,7 @@
             ],
             "dataType": "int64",
             "formatString": "0",
-            "lineageTag": "36e626c5-4aea-4a83-a5e7-4bb42d5e05c3",
+            "lineageTag": "e1338d0d-f1f6-43e3-be0e-170edeab2f21",
             "sourceColumn": "ProductKey",
             "summarizeBy": "count"
           },
@@ -1126,7 +1226,7 @@
             ],
             "dataType": "int64",
             "formatString": "0",
-            "lineageTag": "1540b357-b769-4a2c-80bd-5b8084124849",
+            "lineageTag": "139a063e-e322-4d7d-aa62-366902ce3f5a",
             "sourceColumn": "CustomerKey",
             "summarizeBy": "count"
           },
@@ -1140,7 +1240,7 @@
             ],
             "dataType": "int64",
             "formatString": "0",
-            "lineageTag": "342ef5f9-42ab-4895-8604-03abe2c9e876",
+            "lineageTag": "f5bc4d1e-0193-49ba-9526-7790566ec213",
             "sourceColumn": "TerritoryKey",
             "summarizeBy": "count"
           },
@@ -1154,7 +1254,7 @@
             ],
             "dataType": "int64",
             "formatString": "0",
-            "lineageTag": "ad6aa39e-7fa0-4ca9-b1ff-0c2e0bfee885",
+            "lineageTag": "499e5b93-4536-4678-bd6a-2ba99424f28e",
             "sourceColumn": "OrderLineItem",
             "summarizeBy": "sum"
           },
@@ -1168,478 +1268,29 @@
             ],
             "dataType": "int64",
             "formatString": "0",
-            "lineageTag": "65de9967-ae26-499f-996c-d342c10f320c",
+            "lineageTag": "c6e0cac5-c327-4802-9795-bb923ee73202",
             "sourceColumn": "OrderQuantity",
             "summarizeBy": "sum"
           }
         ],
-        "lineageTag": "395fcc95-bb6a-4117-937a-e5a54eb5700e",
+        "lineageTag": "a05d9482-0548-4418-8490-c58846030fad",
         "partitions": [
           {
-            "name": "Sales Data 2022",
+            "name": "Sales Data",
             "mode": "import",
             "source": {
               "expression": [
                 "let",
-                "    Source = Csv.Document(File.Contents(\"D:\\Datasets\\AdventureWorks Raw Data\\AdventureWorks Sales Data 2022.csv\"),[Delimiter=\",\", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
-                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
-                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"OrderDate\", type date}, {\"StockDate\", type date}, {\"OrderNumber\", type text}, {\"ProductKey\", Int64.Type}, {\"CustomerKey\", Int64.Type}, {\"TerritoryKey\", Int64.Type}, {\"OrderLineItem\", Int64.Type}, {\"OrderQuantity\", Int64.Type}})",
+                "    Source = Folder.Files(\"D:\\Datasets\\AdventureWorks Raw Data\\Sales Data\"),",
+                "    #\"Filtered Hidden Files1\" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),",
+                "    #\"Invoke Custom Function1\" = Table.AddColumn(#\"Filtered Hidden Files1\", \"Transform File\", each #\"Transform File\"([Content])),",
+                "    #\"Renamed Columns1\" = Table.RenameColumns(#\"Invoke Custom Function1\", {\"Name\", \"Source.Name\"}),",
+                "    #\"Removed Other Columns1\" = Table.SelectColumns(#\"Renamed Columns1\", {\"Source.Name\", \"Transform File\"}),",
+                "    #\"Expanded Table Column1\" = Table.ExpandTableColumn(#\"Removed Other Columns1\", \"Transform File\", Table.ColumnNames(#\"Transform File\"(#\"Sample File\"))),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Expanded Table Column1\",{{\"Source.Name\", type text}, {\"OrderDate\", type date}, {\"StockDate\", type date}, {\"OrderNumber\", type text}, {\"ProductKey\", Int64.Type}, {\"CustomerKey\", Int64.Type}, {\"TerritoryKey\", Int64.Type}, {\"OrderLineItem\", Int64.Type}, {\"OrderQuantity\", Int64.Type}}),",
+                "    #\"Removed Columns\" = Table.RemoveColumns(#\"Changed Type\",{\"Source.Name\"})",
                 "in",
-                "    #\"Changed Type\""
-              ],
-              "type": "m"
-            }
-          }
-        ]
-      },
-      {
-        "name": "Sales Data 2021",
-        "annotations": [
-          {
-            "name": "PBI_NavigationStepName",
-            "value": "Navigation"
-          },
-          {
-            "name": "PBI_ResultType",
-            "value": "Table"
-          }
-        ],
-        "columns": [
-          {
-            "name": "OrderDate",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              },
-              {
-                "name": "UnderlyingDateTimeDataType",
-                "value": "Date"
-              }
-            ],
-            "dataType": "dateTime",
-            "formatString": "Long Date",
-            "lineageTag": "95a094f1-3f0c-49a1-aff5-6d1e2ce40714",
-            "sourceColumn": "OrderDate",
-            "summarizeBy": "none"
-          },
-          {
-            "name": "StockDate",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              },
-              {
-                "name": "UnderlyingDateTimeDataType",
-                "value": "Date"
-              }
-            ],
-            "dataType": "dateTime",
-            "formatString": "Long Date",
-            "lineageTag": "b39df52b-4093-426a-9347-32d1cba00645",
-            "sourceColumn": "StockDate",
-            "summarizeBy": "none"
-          },
-          {
-            "name": "OrderNumber",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "string",
-            "lineageTag": "3796d834-8ded-4f6a-8eb2-f44d02380909",
-            "sourceColumn": "OrderNumber",
-            "summarizeBy": "none"
-          },
-          {
-            "name": "ProductKey",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "f3e2b945-f70a-4f28-a02d-1e4dc96594e8",
-            "sourceColumn": "ProductKey",
-            "summarizeBy": "count"
-          },
-          {
-            "name": "CustomerKey",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "60bf6258-9e34-45ad-b421-5b78dc8de8cd",
-            "sourceColumn": "CustomerKey",
-            "summarizeBy": "count"
-          },
-          {
-            "name": "TerritoryKey",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "2f8c1406-ff2c-4cd4-ab1a-2038f978cf8e",
-            "sourceColumn": "TerritoryKey",
-            "summarizeBy": "count"
-          },
-          {
-            "name": "OrderLineItem",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "36bf9997-27ac-4db2-aa40-44e0055e53dc",
-            "sourceColumn": "OrderLineItem",
-            "summarizeBy": "sum"
-          },
-          {
-            "name": "OrderQuantity",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "48579e85-5e53-420b-949b-ebe0aa3cdaca",
-            "sourceColumn": "OrderQuantity",
-            "summarizeBy": "sum"
-          }
-        ],
-        "lineageTag": "0c40de1c-c6a8-43fb-8fa7-c53c5b18e6b1",
-        "partitions": [
-          {
-            "name": "Sales Data 2021",
-            "mode": "import",
-            "source": {
-              "expression": [
-                "let",
-                "    Source = Csv.Document(File.Contents(\"D:\\Datasets\\AdventureWorks Raw Data\\AdventureWorks Sales Data 2021.csv\"),[Delimiter=\",\", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
-                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
-                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"OrderDate\", type date}, {\"StockDate\", type date}, {\"OrderNumber\", type text}, {\"ProductKey\", Int64.Type}, {\"CustomerKey\", Int64.Type}, {\"TerritoryKey\", Int64.Type}, {\"OrderLineItem\", Int64.Type}, {\"OrderQuantity\", Int64.Type}})",
-                "in",
-                "    #\"Changed Type\""
-              ],
-              "type": "m"
-            }
-          }
-        ]
-      },
-      {
-        "name": "Sales Data 2020",
-        "annotations": [
-          {
-            "name": "PBI_NavigationStepName",
-            "value": "Navigation"
-          },
-          {
-            "name": "PBI_ResultType",
-            "value": "Table"
-          }
-        ],
-        "columns": [
-          {
-            "name": "OrderDate",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              },
-              {
-                "name": "UnderlyingDateTimeDataType",
-                "value": "Date"
-              }
-            ],
-            "dataType": "dateTime",
-            "formatString": "Long Date",
-            "lineageTag": "d29f4623-637e-4763-8cb5-2bb7a0b0dc96",
-            "sourceColumn": "OrderDate",
-            "summarizeBy": "none"
-          },
-          {
-            "name": "StockDate",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              },
-              {
-                "name": "UnderlyingDateTimeDataType",
-                "value": "Date"
-              }
-            ],
-            "dataType": "dateTime",
-            "formatString": "Long Date",
-            "lineageTag": "90eb830e-6fe0-4596-8fc3-d1f226566ba2",
-            "sourceColumn": "StockDate",
-            "summarizeBy": "none"
-          },
-          {
-            "name": "OrderNumber",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "string",
-            "lineageTag": "023f104f-f9e4-4432-92c6-7e637f089462",
-            "sourceColumn": "OrderNumber",
-            "summarizeBy": "none"
-          },
-          {
-            "name": "ProductKey",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "fc1176b4-a48b-4d30-b922-5f8485336f2f",
-            "sourceColumn": "ProductKey",
-            "summarizeBy": "count"
-          },
-          {
-            "name": "CustomerKey",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "4d361657-dc90-4d21-ab39-74d1cf6ddf4c",
-            "sourceColumn": "CustomerKey",
-            "summarizeBy": "count"
-          },
-          {
-            "name": "TerritoryKey",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "9a2d5a8e-ff87-4a23-bd87-c0171e14fdea",
-            "sourceColumn": "TerritoryKey",
-            "summarizeBy": "count"
-          },
-          {
-            "name": "OrderLineItem",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "d36ed149-0e2b-44a1-bf73-1000d3edd49c",
-            "sourceColumn": "OrderLineItem",
-            "summarizeBy": "sum"
-          },
-          {
-            "name": "OrderQuantity",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "a0adbadb-11c9-437e-ac6d-71241f564b85",
-            "sourceColumn": "OrderQuantity",
-            "summarizeBy": "sum"
-          }
-        ],
-        "lineageTag": "bf20fe5f-8993-4364-a1ed-c7015576ddfb",
-        "partitions": [
-          {
-            "name": "Sales Data 2020",
-            "mode": "import",
-            "source": {
-              "expression": [
-                "let",
-                "    Source = Csv.Document(File.Contents(\"D:\\Datasets\\AdventureWorks Raw Data\\AdventureWorks Sales Data 2020.csv\"),[Delimiter=\",\", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
-                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
-                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"OrderDate\", type date}, {\"StockDate\", type date}, {\"OrderNumber\", type text}, {\"ProductKey\", Int64.Type}, {\"CustomerKey\", Int64.Type}, {\"TerritoryKey\", Int64.Type}, {\"OrderLineItem\", Int64.Type}, {\"OrderQuantity\", Int64.Type}})",
-                "in",
-                "    #\"Changed Type\""
-              ],
-              "type": "m"
-            }
-          }
-        ]
-      },
-      {
-        "name": "Sales Data 2020 - 2022",
-        "annotations": [
-          {
-            "name": "PBI_NavigationStepName",
-            "value": "Navigation"
-          },
-          {
-            "name": "PBI_ResultType",
-            "value": "Table"
-          }
-        ],
-        "columns": [
-          {
-            "name": "OrderDate",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              },
-              {
-                "name": "UnderlyingDateTimeDataType",
-                "value": "Date"
-              }
-            ],
-            "dataType": "dateTime",
-            "formatString": "Long Date",
-            "lineageTag": "d2dcda30-ec32-417d-b629-10a37549fe8a",
-            "sourceColumn": "OrderDate",
-            "summarizeBy": "none"
-          },
-          {
-            "name": "StockDate",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              },
-              {
-                "name": "UnderlyingDateTimeDataType",
-                "value": "Date"
-              }
-            ],
-            "dataType": "dateTime",
-            "formatString": "Long Date",
-            "lineageTag": "62c9c154-7b7b-4739-9614-b30f55ebff1f",
-            "sourceColumn": "StockDate",
-            "summarizeBy": "none"
-          },
-          {
-            "name": "OrderNumber",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "string",
-            "lineageTag": "0e268067-b3c2-4968-9bae-f9d42bd02cb4",
-            "sourceColumn": "OrderNumber",
-            "summarizeBy": "none"
-          },
-          {
-            "name": "ProductKey",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "42764eaf-be75-42c8-b847-af46840628e7",
-            "sourceColumn": "ProductKey",
-            "summarizeBy": "count"
-          },
-          {
-            "name": "CustomerKey",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "464d8431-a802-463a-bf4f-9b9dbf87ee39",
-            "sourceColumn": "CustomerKey",
-            "summarizeBy": "count"
-          },
-          {
-            "name": "TerritoryKey",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "235ae5e8-d818-4082-b72e-afb6e7ea9812",
-            "sourceColumn": "TerritoryKey",
-            "summarizeBy": "count"
-          },
-          {
-            "name": "OrderLineItem",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "d0ff2dce-124f-4d32-bb1c-a794e8d8c330",
-            "sourceColumn": "OrderLineItem",
-            "summarizeBy": "sum"
-          },
-          {
-            "name": "OrderQuantity",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "b4541a84-0c67-4dc7-8a41-02f6a346c916",
-            "sourceColumn": "OrderQuantity",
-            "summarizeBy": "sum"
-          }
-        ],
-        "lineageTag": "88797953-25ed-42bc-b2d5-c21ad3ef9865",
-        "partitions": [
-          {
-            "name": "Sales Data 2020 - 2022",
-            "mode": "import",
-            "source": {
-              "expression": [
-                "let",
-                "    Source = Table.Combine({#\"Sales Data 2022\", #\"Sales Data 2021\", #\"Sales Data 2020\"})",
-                "in",
-                "    Source"
+                "    #\"Removed Columns\""
               ],
               "type": "m"
             }
