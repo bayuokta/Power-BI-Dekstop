@@ -4,105 +4,98 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 0,
+        "x": 36.510701860700337,
         "y": 0
       },
       "nodes": [
         {
           "location": {
             "x": 0,
-            "y": 62
+            "y": 0
           },
           "nodeIndex": "Territory Lookup",
           "nodeLineageTag": "a87488dc-4917-45e0-b76f-40d64909d39d",
           "size": {
-            "height": 176,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 1,
+          "expandedHeight": 176
         },
         {
           "location": {
-            "x": 284,
-            "y": 0
+            "x": 825.78571428571433,
+            "y": 140
           },
           "nodeIndex": "Product Lookup",
           "nodeLineageTag": "9e21aa4c-5f28-442d-bcfa-50033bcde422",
           "size": {
-            "height": 300,
+            "height": 128,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 8,
+          "expandedHeight": 300
         },
         {
           "location": {
-            "x": 568,
-            "y": 86
+            "x": 1345.1428571428569,
+            "y": 0
           },
           "nodeIndex": "Product Categories Lookup",
           "nodeLineageTag": "296f0f78-4cbc-4aa7-96d5-a1e6032169a7",
           "size": {
-            "height": 128,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 2,
+          "expandedHeight": 124
         },
         {
           "location": {
-            "x": 852,
-            "y": 74
+            "x": 1082.714285714286,
+            "y": 62.857142857142861
           },
           "nodeIndex": "Product Subcategories Lookup",
           "nodeLineageTag": "80ec2dfb-8ac1-4a25-9c79-d4fdb328dc7a",
           "size": {
-            "height": 152,
+            "height": 128,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 7,
+          "expandedHeight": 152
         },
         {
           "location": {
-            "x": 1136,
+            "x": 552.42857142857133,
             "y": 0
           },
           "nodeIndex": "Customer Lookup",
           "nodeLineageTag": "aafe2125-d6b6-4a27-9e4e-451da7c9b6b1",
           "size": {
-            "height": 300,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 3,
+          "expandedHeight": 300
         },
         {
           "location": {
-            "x": 1420,
-            "y": 2
+            "x": 286.785714285714,
+            "y": 0
           },
           "nodeIndex": "Calendar Lookup",
           "nodeLineageTag": "479d176b-ab5b-4d8b-b83f-b4d6bb004ac9",
           "size": {
-            "height": 296,
+            "height": 104,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 4,
+          "expandedHeight": 296
         },
         {
           "location": {
-            "x": 1704,
-            "y": 62
-          },
-          "nodeIndex": "Rolling Calendar",
-          "nodeLineageTag": "f0faeb8e-7604-4d5c-8e23-0fb2d4b4a278",
-          "size": {
-            "height": 176,
-            "width": 234
-          },
-          "zIndex": 0
-        },
-        {
-          "location": {
-            "x": 1988,
-            "y": 14
+            "x": 255.72042410714283,
+            "y": 262.57142857142861
           },
           "nodeIndex": "Sales Data",
           "nodeLineageTag": "a05d9482-0548-4418-8490-c58846030fad",
@@ -110,11 +103,24 @@
             "height": 272,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 518.22767857142821,
+            "y": 259.28571428571422
+          },
+          "nodeIndex": "AdventureWorks Returns Data",
+          "nodeLineageTag": "d0f53612-21eb-4840-8e5b-0cfe74caa71d",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 5
         }
       ],
       "name": "All tables",
-      "zoomValue": 100,
+      "zoomValue": 70,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,

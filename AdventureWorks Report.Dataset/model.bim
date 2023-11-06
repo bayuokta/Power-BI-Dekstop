@@ -12,7 +12,7 @@
       },
       {
         "name": "PBI_QueryOrder",
-        "value": "[\"Territory Lookup\",\"Product Lookup\",\"Product Categories Lookup\",\"Product Subcategories Lookup\",\"Customer Lookup\",\"Largest Asset Management Firms\",\"Calendar Lookup\",\"Rolling Calendar\",\"Product Category Sales (Unpivot Demo)\",\"Sales Data\",\"Sample File\",\"Parameter1\",\"Transform Sample File\",\"Transform File\"]"
+        "value": "[\"Territory Lookup\",\"Product Lookup\",\"Product Categories Lookup\",\"Product Subcategories Lookup\",\"Customer Lookup\",\"Largest Asset Management Firms\",\"Calendar Lookup\",\"Rolling Calendar\",\"Product Category Sales (Unpivot Demo)\",\"Sales Data\",\"Sample File\",\"Parameter1\",\"Transform Sample File\",\"Transform File\",\"AdventureWorks Returns Data\"]"
       },
       {
         "name": "PBI_ProTooling",
@@ -173,6 +173,34 @@
         "lineageTag": "d6f25cc5-50a7-4886-95d1-08e851490eb8",
         "mAttributes": "[ FunctionQueryBinding = \"{\"\"exemplarFormulaName\"\":\"\"Transform Sample File\"\"}\" ]",
         "queryGroup": "Transform File from Sales Data\\Helper Queries"
+      },
+      {
+        "name": "Rolling Calendar",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "expression": [
+          "let",
+          "    Source = #date(2022,1,1),",
+          "    Custom1 = List.Dates(",
+          "    Source,",
+          "    Number.From(DateTime.LocalNow()) - Number.From(Source),",
+          "    #duration(1,0,0,0)",
+          "),",
+          "    #\"Converted to Table\" = Table.FromList(Custom1, Splitter.SplitByNothing(), null, null, ExtraValues.Error),",
+          "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Converted to Table\",{{\"Column1\", type date}}),",
+          "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"Column1\", \"Date\"}}),",
+          "    #\"Inserted Year\" = Table.AddColumn(#\"Renamed Columns\", \"Year\", each Date.Year([Date]), Int64.Type),",
+          "    #\"Inserted Start of Month\" = Table.AddColumn(#\"Inserted Year\", \"Start of Month\", each Date.StartOfMonth([Date]), type date),",
+          "    #\"Inserted Start of Quarter\" = Table.AddColumn(#\"Inserted Start of Month\", \"Start of Quarter\", each Date.StartOfQuarter([Date]), type date)",
+          "in",
+          "    #\"Inserted Start of Quarter\""
+        ],
+        "kind": "m",
+        "lineageTag": "da40a3c5-c66b-4f88-b2e8-671141b2f921"
       }
     ],
     "queryGroups": [
@@ -204,6 +232,79 @@
         "folder": "Transform File from Sales Data\\Helper Queries"
       }
     ],
+    "relationships": [
+      {
+        "name": "86b4188d-f349-41d2-986f-cdc686f17f35",
+        "fromColumn": "CustomerKey",
+        "fromTable": "Sales Data",
+        "toColumn": "CustomerKey",
+        "toTable": "Customer Lookup"
+      },
+      {
+        "name": "46fc1863-fe4e-4937-b63a-e47608daab04",
+        "fromColumn": "ProductKey",
+        "fromTable": "Sales Data",
+        "toColumn": "ProductKey",
+        "toTable": "Product Lookup"
+      },
+      {
+        "name": "bc794927-f4a2-47df-8902-9aa3b8344ec8",
+        "fromColumn": "TerritoryKey",
+        "fromTable": "Sales Data",
+        "toColumn": "Sales Territory Key",
+        "toTable": "Territory Lookup"
+      },
+      {
+        "name": "11e6810e-7f27-4002-a674-6c6e79098a28",
+        "fromColumn": "OrderDate",
+        "fromTable": "Sales Data",
+        "toColumn": "Date",
+        "toTable": "Calendar Lookup"
+      },
+      {
+        "name": "f53baeeb-d336-4bca-b537-20358dc04c42",
+        "fromColumn": "ProductSubcategoryKey",
+        "fromTable": "Product Lookup",
+        "toColumn": "ProductSubcategoryKey",
+        "toTable": "Product Subcategories Lookup"
+      },
+      {
+        "name": "a39c9695-bb60-4c38-86e4-4cc2b3637fea",
+        "fromColumn": "ProductCategoryKey",
+        "fromTable": "Product Subcategories Lookup",
+        "toColumn": "ProductCategoryKey",
+        "toTable": "Product Categories Lookup"
+      },
+      {
+        "name": "4b829b06-1cff-4a17-b77b-cf412846765d",
+        "fromColumn": "StockDate",
+        "fromTable": "Sales Data",
+        "isActive": false,
+        "toColumn": "Date",
+        "toTable": "Calendar Lookup"
+      },
+      {
+        "name": "da828817-35d4-4a95-93e6-05133628ce70",
+        "fromColumn": "ProductKey",
+        "fromTable": "AdventureWorks Returns Data",
+        "toColumn": "ProductKey",
+        "toTable": "Product Lookup"
+      },
+      {
+        "name": "d624e33b-3338-492c-af50-be5e6238d93c",
+        "fromColumn": "TerritoryKey",
+        "fromTable": "AdventureWorks Returns Data",
+        "toColumn": "Sales Territory Key",
+        "toTable": "Territory Lookup"
+      },
+      {
+        "name": "c636d09d-5d8e-45f3-a4c8-585cc0ff5f7b",
+        "fromColumn": "ReturnDate",
+        "fromTable": "AdventureWorks Returns Data",
+        "toColumn": "Date",
+        "toTable": "Calendar Lookup"
+      }
+    ],
     "sourceQueryCulture": "en-US",
     "tables": [
       {
@@ -225,9 +326,10 @@
             ],
             "dataType": "int64",
             "formatString": "0",
+            "isKey": true,
             "lineageTag": "5940f242-c3b7-4be6-87b5-7a017e4a13e9",
             "sourceColumn": "Sales Territory Key",
-            "summarizeBy": "count"
+            "summarizeBy": "none"
           },
           {
             "name": "Region",
@@ -308,9 +410,10 @@
             ],
             "dataType": "int64",
             "formatString": "0",
+            "isKey": true,
             "lineageTag": "8bd70e2c-62aa-43d3-b3fc-1c2d52f710f6",
             "sourceColumn": "ProductKey",
-            "summarizeBy": "count"
+            "summarizeBy": "none"
           },
           {
             "name": "ProductSubcategoryKey",
@@ -324,7 +427,7 @@
             "formatString": "0",
             "lineageTag": "0dfabf54-828d-4452-a562-2cc95709c77e",
             "sourceColumn": "ProductSubcategoryKey",
-            "summarizeBy": "count"
+            "summarizeBy": "none"
           },
           {
             "name": "ProductSKU",
@@ -515,9 +618,10 @@
             ],
             "dataType": "int64",
             "formatString": "0",
+            "isKey": true,
             "lineageTag": "259e2948-d3bb-4be7-b4af-6d08ef6e457c",
             "sourceColumn": "ProductCategoryKey",
-            "summarizeBy": "count"
+            "summarizeBy": "none"
           },
           {
             "name": "CategoryName",
@@ -571,9 +675,10 @@
             ],
             "dataType": "int64",
             "formatString": "0",
+            "isKey": true,
             "lineageTag": "64004109-4959-4735-95c4-2f18ec71ff10",
             "sourceColumn": "ProductSubcategoryKey",
-            "summarizeBy": "count"
+            "summarizeBy": "none"
           },
           {
             "name": "SubcategoryName",
@@ -600,7 +705,7 @@
             "formatString": "0",
             "lineageTag": "3642be2d-1741-457e-a580-4479a8a95774",
             "sourceColumn": "ProductCategoryKey",
-            "summarizeBy": "count"
+            "summarizeBy": "none"
           }
         ],
         "lineageTag": "80ec2dfb-8ac1-4a25-9c79-d4fdb328dc7a",
@@ -641,9 +746,10 @@
             ],
             "dataType": "int64",
             "formatString": "0",
+            "isKey": true,
             "lineageTag": "9de18993-322b-4183-af5b-e21e9469a8e6",
             "sourceColumn": "CustomerKey",
-            "summarizeBy": "count"
+            "summarizeBy": "none"
           },
           {
             "name": "Prefix",
@@ -753,7 +859,7 @@
             "formatString": "0",
             "lineageTag": "ffd9158b-5831-4b19-98b5-4a08e7d89b2c",
             "sourceColumn": "AnnualIncome",
-            "summarizeBy": "sum"
+            "summarizeBy": "none"
           },
           {
             "name": "TotalChildren",
@@ -767,7 +873,7 @@
             "formatString": "0",
             "lineageTag": "4ebb9623-03ca-45ba-ae80-1d5d91f46ec6",
             "sourceColumn": "TotalChildren",
-            "summarizeBy": "sum"
+            "summarizeBy": "none"
           },
           {
             "name": "EducationLevel",
@@ -885,6 +991,7 @@
             ],
             "dataType": "dateTime",
             "formatString": "Long Date",
+            "isDefaultLabel": true,
             "lineageTag": "86e1d750-8f82-47f7-87c9-a1bf4e1df929",
             "sourceColumn": "Date",
             "summarizeBy": "none"
@@ -1039,112 +1146,6 @@
         ]
       },
       {
-        "name": "Rolling Calendar",
-        "annotations": [
-          {
-            "name": "PBI_ResultType",
-            "value": "Table"
-          }
-        ],
-        "columns": [
-          {
-            "name": "Date",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              },
-              {
-                "name": "UnderlyingDateTimeDataType",
-                "value": "Date"
-              }
-            ],
-            "dataType": "dateTime",
-            "formatString": "Long Date",
-            "lineageTag": "45a8cdee-8e59-4e2a-a64b-85e916b66d62",
-            "sourceColumn": "Date",
-            "summarizeBy": "none"
-          },
-          {
-            "name": "Year",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              }
-            ],
-            "dataType": "int64",
-            "formatString": "0",
-            "lineageTag": "172b5325-8e89-4e86-ab62-eb1844b9b2ab",
-            "sourceColumn": "Year",
-            "summarizeBy": "sum"
-          },
-          {
-            "name": "Start of Month",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              },
-              {
-                "name": "UnderlyingDateTimeDataType",
-                "value": "Date"
-              }
-            ],
-            "dataType": "dateTime",
-            "formatString": "Long Date",
-            "lineageTag": "9f26ca44-2ee2-4ce9-aa5a-79e0644a4314",
-            "sourceColumn": "Start of Month",
-            "summarizeBy": "none"
-          },
-          {
-            "name": "Start of Quarter",
-            "annotations": [
-              {
-                "name": "SummarizationSetBy",
-                "value": "Automatic"
-              },
-              {
-                "name": "UnderlyingDateTimeDataType",
-                "value": "Date"
-              }
-            ],
-            "dataType": "dateTime",
-            "formatString": "Long Date",
-            "lineageTag": "47df7f5d-e041-447f-8dde-26210331bf0a",
-            "sourceColumn": "Start of Quarter",
-            "summarizeBy": "none"
-          }
-        ],
-        "lineageTag": "f0faeb8e-7604-4d5c-8e23-0fb2d4b4a278",
-        "partitions": [
-          {
-            "name": "Rolling Calendar",
-            "mode": "import",
-            "source": {
-              "expression": [
-                "let",
-                "    Source = #date(2022,1,1),",
-                "    Custom1 = List.Dates(",
-                "    Source,",
-                "    Number.From(DateTime.LocalNow()) - Number.From(Source),",
-                "    #duration(1,0,0,0)",
-                "),",
-                "    #\"Converted to Table\" = Table.FromList(Custom1, Splitter.SplitByNothing(), null, null, ExtraValues.Error),",
-                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Converted to Table\",{{\"Column1\", type date}}),",
-                "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"Column1\", \"Date\"}}),",
-                "    #\"Inserted Year\" = Table.AddColumn(#\"Renamed Columns\", \"Year\", each Date.Year([Date]), Int64.Type),",
-                "    #\"Inserted Start of Month\" = Table.AddColumn(#\"Inserted Year\", \"Start of Month\", each Date.StartOfMonth([Date]), type date),",
-                "    #\"Inserted Start of Quarter\" = Table.AddColumn(#\"Inserted Start of Month\", \"Start of Quarter\", each Date.StartOfQuarter([Date]), type date)",
-                "in",
-                "    #\"Inserted Start of Quarter\""
-              ],
-              "type": "m"
-            }
-          }
-        ]
-      },
-      {
         "name": "Sales Data",
         "annotations": [
           {
@@ -1214,7 +1215,7 @@
             "formatString": "0",
             "lineageTag": "e1338d0d-f1f6-43e3-be0e-170edeab2f21",
             "sourceColumn": "ProductKey",
-            "summarizeBy": "count"
+            "summarizeBy": "none"
           },
           {
             "name": "CustomerKey",
@@ -1228,7 +1229,7 @@
             "formatString": "0",
             "lineageTag": "139a063e-e322-4d7d-aa62-366902ce3f5a",
             "sourceColumn": "CustomerKey",
-            "summarizeBy": "count"
+            "summarizeBy": "none"
           },
           {
             "name": "TerritoryKey",
@@ -1242,7 +1243,7 @@
             "formatString": "0",
             "lineageTag": "f5bc4d1e-0193-49ba-9526-7790566ec213",
             "sourceColumn": "TerritoryKey",
-            "summarizeBy": "count"
+            "summarizeBy": "none"
           },
           {
             "name": "OrderLineItem",
@@ -1291,6 +1292,95 @@
                 "    #\"Removed Columns\" = Table.RemoveColumns(#\"Changed Type\",{\"Source.Name\"})",
                 "in",
                 "    #\"Removed Columns\""
+              ],
+              "type": "m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "AdventureWorks Returns Data",
+        "annotations": [
+          {
+            "name": "PBI_ResultType",
+            "value": "Table"
+          }
+        ],
+        "columns": [
+          {
+            "name": "ReturnDate",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              },
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "Long Date",
+            "lineageTag": "3b24e933-3f04-48df-9655-ee37aab885b1",
+            "sourceColumn": "ReturnDate",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "TerritoryKey",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "0ccea222-401c-44ec-960c-3c33f2126062",
+            "sourceColumn": "TerritoryKey",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ProductKey",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "c446ecbd-0a78-443f-b943-e37f31772fa5",
+            "sourceColumn": "ProductKey",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "ReturnQuantity",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "formatString": "0",
+            "lineageTag": "acf6da34-ffa3-46d0-9efb-80645ba4107b",
+            "sourceColumn": "ReturnQuantity",
+            "summarizeBy": "sum"
+          }
+        ],
+        "lineageTag": "d0f53612-21eb-4840-8e5b-0cfe74caa71d",
+        "partitions": [
+          {
+            "name": "AdventureWorks Returns Data",
+            "mode": "import",
+            "source": {
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"D:\\Datasets\\AdventureWorks Raw Data\\AdventureWorks Returns Data.csv\"),[Delimiter=\",\", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"ReturnDate\", type date}, {\"TerritoryKey\", Int64.Type}, {\"ProductKey\", Int64.Type}, {\"ReturnQuantity\", Int64.Type}})",
+                "in",
+                "    #\"Changed Type\""
               ],
               "type": "m"
             }
