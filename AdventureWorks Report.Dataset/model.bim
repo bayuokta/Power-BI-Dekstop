@@ -1158,6 +1158,38 @@
             "summarizeBy": "sum"
           }
         ],
+        "hierarchies": [
+          {
+            "name": "Date Hierarchy",
+            "levels": [
+              {
+                "name": "Start of Year",
+                "column": "Start of Year",
+                "lineageTag": "8065c075-bd71-4612-a2f8-52cb891c0507",
+                "ordinal": 0
+              },
+              {
+                "name": "Date",
+                "column": "Date",
+                "lineageTag": "0a336429-8c30-4419-b82a-35c23e63b67c",
+                "ordinal": 3
+              },
+              {
+                "name": "Start of Month",
+                "column": "Start of Month",
+                "lineageTag": "5b869aa8-4ef8-4919-b417-2bf1247b9c06",
+                "ordinal": 1
+              },
+              {
+                "name": "Start of Week",
+                "column": "Start of Week",
+                "lineageTag": "084c85c2-e3c8-4513-a247-1d44af02c07f",
+                "ordinal": 2
+              }
+            ],
+            "lineageTag": "6ef0e36a-c9e7-4849-ba4e-f78761e0fe93"
+          }
+        ],
         "lineageTag": "479d176b-ab5b-4d8b-b83f-b4d6bb004ac9",
         "partitions": [
           {
@@ -1342,6 +1374,28 @@
             "lineageTag": "c6e0cac5-c327-4802-9795-bb923ee73202",
             "sourceColumn": "OrderQuantity",
             "summarizeBy": "sum"
+          },
+          {
+            "name": "Quantity Type",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "expression": [
+              "",
+              "IF(",
+              "    'Sales Data'[OrderQuantity] = 1,",
+              "    \"Single Item\",",
+              "    \"Multiple Item\"",
+              ")"
+            ],
+            "isDataTypeInferred": true,
+            "lineageTag": "a8c60aa4-e6b4-4746-91eb-05a00e8a1097",
+            "summarizeBy": "none",
+            "type": "calculated"
           }
         ],
         "lineageTag": "a05d9482-0548-4418-8490-c58846030fad",
