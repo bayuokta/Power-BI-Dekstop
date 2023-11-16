@@ -8,7 +8,7 @@
       },
       {
         "name": "PBIDesktopVersion",
-        "value": "2.122.746.0 (23.10)"
+        "value": "2.123.684.0 (23.11)"
       },
       {
         "name": "PBI_QueryOrder",
@@ -16,7 +16,7 @@
       },
       {
         "name": "PBI_ProTooling",
-        "value": "[\"DevMode\"]"
+        "value": "[\"DevMode\",\"DaxQueryView_Desktop\"]"
       }
     ],
     "culture": "en-US",
@@ -1399,6 +1399,19 @@
           }
         ],
         "lineageTag": "a05d9482-0548-4418-8490-c58846030fad",
+        "measures": [
+          {
+            "name": "Order Quantity",
+            "expression": [
+              "",
+              "SUM(",
+              "    'Sales Data'[OrderQuantity]",
+              ")"
+            ],
+            "formatString": "0",
+            "lineageTag": "a8e1713f-a9ec-46eb-bb23-5765c7d11a8e"
+          }
+        ],
         "partitions": [
           {
             "name": "Sales Data",
