@@ -630,6 +630,30 @@
             "lineageTag": "2d819ea4-9f93-4a1a-9346-82d4896f1fca",
             "summarizeBy": "none",
             "type": "calculated"
+          },
+          {
+            "name": "SKU Category",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "expression": [
+              "",
+              "LEFT(",
+              "    'Product Lookup'[ProductSKU],",
+              "    SEARCH(",
+              "        \"-\",",
+              "        'Product Lookup'[ProductSKU]",
+              "    )-1",
+              ")"
+            ],
+            "isDataTypeInferred": true,
+            "lineageTag": "e7c443c6-4d91-44b2-906b-49f82992d505",
+            "summarizeBy": "none",
+            "type": "calculated"
           }
         ],
         "lineageTag": "9e21aa4c-5f28-442d-bcfa-50033bcde422",
@@ -1093,6 +1117,45 @@
             "lineageTag": "8ae743d8-3504-4aa9-ab17-209edacc8e5e",
             "summarizeBy": "none",
             "type": "calculated"
+          },
+          {
+            "name": "Customer Full Name (CC)",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "expression": [
+              "",
+              "'Customer Lookup'[Prefix] & \" \" & 'Customer Lookup'[FirstName] & \" \" & 'Customer Lookup'[LastName]"
+            ],
+            "isDataTypeInferred": true,
+            "lineageTag": "9f8bec85-d847-4ee6-b2d2-dcce04d7cce6",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Birth Year",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "expression": [
+              "",
+              "YEAR(",
+              "    'Customer Lookup'[BirthDate]",
+              ")"
+            ],
+            "formatString": "0",
+            "isDataTypeInferred": true,
+            "lineageTag": "e6e880cc-b323-47ac-bc44-b07c3e6be55f",
+            "summarizeBy": "none",
+            "type": "calculated"
           }
         ],
         "lineageTag": "aafe2125-d6b6-4a27-9e4e-451da7c9b6b1",
@@ -1301,6 +1364,73 @@
             ],
             "isDataTypeInferred": true,
             "lineageTag": "cc3bff58-1fe1-4beb-8821-435595b20bb7",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Month Short",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "expression": [
+              "",
+              "UPPER(",
+              "    LEFT(",
+              "        'Calendar Lookup'[Month Name],",
+              "        3",
+              "    )",
+              ")"
+            ],
+            "isDataTypeInferred": true,
+            "lineageTag": "69a46fef-13c7-4187-bfe5-701486a0abc2",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Day of Week",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "expression": [
+              "",
+              "WEEKDAY(",
+              "    'Calendar Lookup'[Date],",
+              "    2",
+              ")"
+            ],
+            "formatString": "0",
+            "isDataTypeInferred": true,
+            "lineageTag": "c3430848-864b-44a7-a291-7504b1499372",
+            "summarizeBy": "sum",
+            "type": "calculated"
+          },
+          {
+            "name": "Weekend",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "expression": [
+              "",
+              "IF(",
+              "    'Calendar Lookup'[Day of Week] in {6,7},",
+              "    \"Weekend\",",
+              "    \"Weekday\"",
+              ")"
+            ],
+            "isDataTypeInferred": true,
+            "lineageTag": "3c4d1ccb-f200-4556-98ea-16c837124117",
             "summarizeBy": "none",
             "type": "calculated"
           }
@@ -1770,6 +1900,192 @@
             ],
             "formatString": "0.00%;-0.00%;0.00%",
             "lineageTag": "fe0837bc-bed5-457f-99a3-989cc54d1f29"
+          },
+          {
+            "name": "Bulk Orders",
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Orders],",
+              "    'Sales Data'[OrderQuantity] > 1",
+              ")"
+            ],
+            "formatString": "#,0",
+            "lineageTag": "c93b157e-81bd-4c5a-9b98-1eb58c4edeac"
+          },
+          {
+            "name": "Weekend Orders",
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Orders],",
+              "    'Calendar Lookup'[Weekend] = \"Weekend\"",
+              ")"
+            ],
+            "formatString": "#,0",
+            "lineageTag": "f3add8c3-b785-464e-95c4-44e6b5797e24"
+          },
+          {
+            "name": "Bike Returns",
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Returns],",
+              "    'Product Categories Lookup'[CategoryName] = \"Bikes\"",
+              ")"
+            ],
+            "formatString": "#,0",
+            "lineageTag": "6ab4019f-9144-454b-9564-c7609bed614b"
+          },
+          {
+            "name": "Bike Sales",
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Quantity Sold],",
+              "    'Product Categories Lookup'[CategoryName] = \"Bikes\"",
+              ")"
+            ],
+            "formatString": "#,0",
+            "lineageTag": "4ac8f554-1196-43ef-bc75-0ab90b41be5b"
+          },
+          {
+            "name": "Bike Return Rate",
+            "expression": [
+              "",
+              "DIVIDE(",
+              "    [Bike Returns],",
+              "    [Bike Sales]",
+              ")"
+            ],
+            "formatString": "0.00%;-0.00%;0.00%",
+            "lineageTag": "40c80bc9-d0cb-48ee-b6ca-54d1c6cf5e6c"
+          },
+          {
+            "name": "All Orders",
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Orders],",
+              "    ALL(",
+              "        'Sales Data'",
+              "    )",
+              ")"
+            ],
+            "formatString": "#,0",
+            "lineageTag": "3ce2e183-2bd5-4c84-85ad-13fa05896fee"
+          },
+          {
+            "name": "% of All Orders",
+            "expression": [
+              "",
+              "DIVIDE(",
+              "    [Total Orders],",
+              "    [All Orders],",
+              "    0",
+              ")"
+            ],
+            "formatString": "0.00%;-0.00%;0.00%",
+            "lineageTag": "ebdaa280-d953-4a60-99c8-98870081d7a9"
+          },
+          {
+            "name": "Overall Average Price",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-US\"}"
+              }
+            ],
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Average Retail Price],",
+              "    ALL(",
+              "        'Product Lookup'",
+              "    )",
+              ")"
+            ],
+            "formatString": "\\$#,0.###############;(\\$#,0.###############);\\$#,0.###############",
+            "lineageTag": "120d627d-31e2-4059-9296-396a528c741e"
+          },
+          {
+            "name": "All Returns",
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Returns],",
+              "    ALL(",
+              "        'Returns Data'",
+              "    )",
+              ")"
+            ],
+            "formatString": "#,0",
+            "lineageTag": "07a1733f-5469-4913-a615-9b7de2b5c7ae"
+          },
+          {
+            "name": "% of All Returns",
+            "expression": [
+              "",
+              "DIVIDE(",
+              "    [Total Returns],",
+              "    [All Returns],",
+              "    0",
+              ")"
+            ],
+            "formatString": "0.00%;-0.00%;0.00%",
+            "lineageTag": "9a1872b8-38b1-49a7-85fb-49b0ff5752cd"
+          },
+          {
+            "name": "High Ticket Orders",
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Orders],",
+              "    FILTER(",
+              "        'Product Lookup',",
+              "        'Product Lookup'[ProductPrice] > [Overall Average Price]",
+              "    )",
+              ")"
+            ],
+            "formatString": "#,0",
+            "lineageTag": "94e66f4e-c3ba-4cf0-afa8-8587f38651f5"
+          },
+          {
+            "name": "Total Revenue",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-US\"}"
+              }
+            ],
+            "expression": [
+              "",
+              "SUMX(",
+              "    'Sales Data',",
+              "    'Sales Data'[OrderQuantity] * RELATED('Product Lookup'[ProductPrice])",
+              ")"
+            ],
+            "formatString": "\\$#,0;(\\$#,0);\\$#,0",
+            "lineageTag": "b9d51c5d-3981-495b-b477-fceb3d29e019"
+          },
+          {
+            "name": "Average Revenue per Customer",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-US\"}"
+              }
+            ],
+            "expression": [
+              "",
+              "DIVIDE(",
+              "    [Total Revenue],",
+              "    [Total Customers],",
+              "    0",
+              ")"
+            ],
+            "formatString": "\\$#,0;(\\$#,0);\\$#,0",
+            "lineageTag": "6dc3a02e-f042-4147-ab53-1031426ae1c7"
           }
         ],
         "partitions": [

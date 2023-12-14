@@ -27,22 +27,13 @@
       "name": "ReportSection",
       "visualContainers": [
         {
-          "config": "{\"name\":\"179e0c2392be64dac889\",\"layouts\":[{\"id\":0,\"position\":{\"x\":186.2645011600928,\"y\":138.65429234338748,\"z\":0,\"width\":821.0672853828306,\"height\":148.67749419953597,\"tabOrder\":0}}],\"singleVisual\":{\"visualType\":\"pivotTable\",\"projections\":{\"Values\":[{\"queryRef\":\"Measure Table.Order Quantity\"},{\"queryRef\":\"Measure Table.Quantity Returned\"},{\"queryRef\":\"Measure Table.Return Rate\"},{\"queryRef\":\"Measure Table.Total Customers\"}],\"Rows\":[{\"queryRef\":\"Product Categories Lookup.CategoryName\",\"active\":true}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"m\",\"Entity\":\"Measure Table\",\"Type\":0},{\"Name\":\"p\",\"Entity\":\"Product Categories Lookup\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"m\"}},\"Property\":\"Quantity Returned\"},\"Name\":\"Measure Table.Quantity Returned\",\"NativeReferenceName\":\"Quantity Returned\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"m\"}},\"Property\":\"Quantity Sold\"},\"Name\":\"Measure Table.Order Quantity\",\"NativeReferenceName\":\"Quantity Sold\"},{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"p\"}},\"Property\":\"CategoryName\"},\"Name\":\"Product Categories Lookup.CategoryName\",\"NativeReferenceName\":\"CategoryName\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"m\"}},\"Property\":\"Return Rate\"},\"Name\":\"Measure Table.Return Rate\",\"NativeReferenceName\":\"Return Rate\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"m\"}},\"Property\":\"Total Customers\"},\"Name\":\"Measure Table.Total Customers\",\"NativeReferenceName\":\"Total Customers\"}]},\"drillFilterOtherVisuals\":true,\"objects\":{}}}",
+          "config": "{\"name\":\"179e0c2392be64dac889\",\"layouts\":[{\"id\":0,\"position\":{\"x\":66.76363636363637,\"y\":149.23636363636365,\"z\":0,\"width\":852.2181818181818,\"height\":294.54545454545456,\"tabOrder\":0}}],\"singleVisual\":{\"visualType\":\"pivotTable\",\"projections\":{\"Rows\":[{\"queryRef\":\"Product Categories Lookup.CategoryName\",\"active\":true}],\"Values\":[{\"queryRef\":\"Measure Table.Quantity Sold\"},{\"queryRef\":\"Measure Table.Total Revenue\"},{\"queryRef\":\"Measure Table.Average Revenue per Customer\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"p\",\"Entity\":\"Product Categories Lookup\",\"Type\":0},{\"Name\":\"m\",\"Entity\":\"Measure Table\",\"Type\":0}],\"Select\":[{\"Column\":{\"Expression\":{\"SourceRef\":{\"Source\":\"p\"}},\"Property\":\"CategoryName\"},\"Name\":\"Product Categories Lookup.CategoryName\",\"NativeReferenceName\":\"CategoryName\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"m\"}},\"Property\":\"Quantity Sold\"},\"Name\":\"Measure Table.Quantity Sold\",\"NativeReferenceName\":\"Quantity Sold\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"m\"}},\"Property\":\"Total Revenue\"},\"Name\":\"Measure Table.Total Revenue\",\"NativeReferenceName\":\"Total Revenue\"},{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"m\"}},\"Property\":\"Average Revenue per Customer\"},\"Name\":\"Measure Table.Average Revenue per Customer\",\"NativeReferenceName\":\"Average Revenue per Customer\"}]},\"drillFilterOtherVisuals\":true,\"objects\":{}}}",
           "filters": "[]",
-          "height": 148.68,
-          "width": 821.07,
-          "x": 186.26,
-          "y": 138.65,
+          "height": 294.55,
+          "width": 852.22,
+          "x": 66.76,
+          "y": 149.24,
           "z": 0.00
-        },
-        {
-          "config": "{\"name\":\"5d1fe46b080b83455340\",\"layouts\":[{\"id\":0,\"position\":{\"x\":206.31090487238978,\"y\":337.4477958236659,\"z\":1,\"width\":643.9907192575406,\"height\":150.3480278422274}}],\"singleVisual\":{\"visualType\":\"tableEx\",\"projections\":{\"Values\":[{\"queryRef\":\"Measure Table.Total Customers\"}]},\"prototypeQuery\":{\"Version\":2,\"From\":[{\"Name\":\"m\",\"Entity\":\"Measure Table\",\"Type\":0}],\"Select\":[{\"Measure\":{\"Expression\":{\"SourceRef\":{\"Source\":\"m\"}},\"Property\":\"Total Customers\"},\"Name\":\"Measure Table.Total Customers\",\"NativeReferenceName\":\"Total Customers\"}]},\"autoSelectVisualType\":false,\"drillFilterOtherVisuals\":true}}",
-          "filters": "[]",
-          "height": 150.35,
-          "width": 643.99,
-          "x": 206.31,
-          "y": 337.45,
-          "z": 1.00
         }
       ],
       "width": 1280.00
