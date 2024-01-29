@@ -8,11 +8,11 @@
       },
       {
         "name": "PBIDesktopVersion",
-        "value": "2.123.684.0 (23.11)"
+        "value": "2.124.1554.0 (23.12)"
       },
       {
         "name": "PBI_QueryOrder",
-        "value": "[\"Territory Lookup\",\"Product Lookup\",\"Product Categories Lookup\",\"Product Subcategories Lookup\",\"Customer Lookup\",\"Largest Asset Management Firms\",\"Calendar Lookup\",\"Rolling Calendar\",\"Product Category Sales (Unpivot Demo)\",\"Sales Data\",\"Sample File\",\"Parameter1\",\"Transform Sample File\",\"Transform File\",\"Returns Data\",\"Measure Table\"]"
+        "value": "[\"Territory Lookup\",\"Product Lookup\",\"Product Categories Lookup\",\"Product Subcategories Lookup\",\"Customer Lookup\",\"Largest Asset Management Firms\",\"Calendar Lookup\",\"Rolling Calendar\",\"Product Category Sales (Unpivot Demo)\",\"Sales Data\",\"Sample File\",\"Parameter1\",\"Transform Sample File\",\"Transform File\",\"Returns Data\",\"Measure Table\",\"Path\"]"
       },
       {
         "name": "PBI_ProTooling",
@@ -48,13 +48,13 @@
           }
         ],
         "expression": [
-          "let",
-          "    Source = Web.BrowserContents(\"https://en.wikipedia.org/wiki/List_of_asset_management_firms\"),",
-          "    #\"Extracted Table From Html\" = Html.Table(Source, {{\"Column1\", \"TABLE.sortable.wikitable > * > TR > :nth-child(1)\"}, {\"Column2\", \"TABLE.sortable.wikitable > * > TR > :nth-child(2)\"}, {\"Column3\", \"TABLE.sortable.wikitable > * > TR > :nth-child(3)\"}, {\"Column4\", \"TABLE.sortable.wikitable > * > TR > :nth-child(4)\"}}, [RowSelector=\"TABLE.sortable.wikitable > * > TR\"]),",
-          "    #\"Promoted Headers\" = Table.PromoteHeaders(#\"Extracted Table From Html\", [PromoteAllScalars=true]),",
-          "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Rank\", Int64.Type}, {\"Firm/company\", type text}, {\"Country\", type text}, {\"AUM (billion USD)\", type number}}),",
-          "    #\"Changed To Currency\" = Table.TransformColumnTypes(#\"Changed Type\",{{\"AUM (billion USD)\", Currency.Type}})",
-          "in",
+          "let\r",
+          "    Source = Web.BrowserContents(\"https://en.wikipedia.org/wiki/List_of_asset_management_firms\"),\r",
+          "    #\"Extracted Table From Html\" = Html.Table(Source, {{\"Column1\", \"TABLE.sortable.wikitable > * > TR > :nth-child(1)\"}, {\"Column2\", \"TABLE.sortable.wikitable > * > TR > :nth-child(2)\"}, {\"Column3\", \"TABLE.sortable.wikitable > * > TR > :nth-child(3)\"}, {\"Column4\", \"TABLE.sortable.wikitable > * > TR > :nth-child(4)\"}}, [RowSelector=\"TABLE.sortable.wikitable > * > TR\"]),\r",
+          "    #\"Promoted Headers\" = Table.PromoteHeaders(#\"Extracted Table From Html\", [PromoteAllScalars=true]),\r",
+          "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Rank\", Int64.Type}, {\"Firm/company\", type text}, {\"Country\", type text}, {\"AUM (billion USD)\", type number}}),\r",
+          "    #\"Changed To Currency\" = Table.TransformColumnTypes(#\"Changed Type\",{{\"AUM (billion USD)\", Currency.Type}})\r",
+          "in\r",
           "    #\"Changed To Currency\""
         ],
         "kind": "m",
@@ -75,7 +75,7 @@
         ],
         "expression": [
           "let",
-          "    Source = Csv.Document(File.Contents(\"D:\\Datasets\\AdventureWorks Raw Data\\Product Category Sales (Unpivot Demo).csv\"),[Delimiter=\",\", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+          "    Source = Csv.Document(File.Contents(Path&\"\\Product Category Sales (Unpivot Demo).csv\"),[Delimiter=\",\", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
           "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
           "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Date\", type date}, {\"Product Category\", type text}, {\"North Region\", Int64.Type}, {\"Central Region\", Int64.Type}, {\"South Region\", Int64.Type}}),",
           "    #\"Unpivoted Only Selected Columns\" = Table.Unpivot(#\"Changed Type\", {\"North Region\", \"Central Region\", \"South Region\"}, \"Attribute\", \"Value\"),",
@@ -102,7 +102,7 @@
         ],
         "expression": [
           "let",
-          "    Source = Folder.Files(\"D:\\Datasets\\AdventureWorks Raw Data\\Sales Data\"),",
+          "    Source = Folder.Files(Path&\"\\Sales Data\"),",
           "    Navigation1 = Source{0}[Content]",
           "in",
           "    Navigation1"
@@ -141,10 +141,10 @@
           }
         ],
         "expression": [
-          "let",
-          "    Source = Csv.Document(Parameter1,[Delimiter=\",\", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
-          "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
-          "in",
+          "let\r",
+          "    Source = Csv.Document(Parameter1,[Delimiter=\",\", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),\r",
+          "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])\r",
+          "in\r",
           "    #\"Promoted Headers\""
         ],
         "kind": "m",
@@ -157,15 +157,19 @@
           {
             "name": "PBI_ResultType",
             "value": "Function"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
           }
         ],
         "expression": [
           "let",
           "    Source = (Parameter1 as binary) => let",
-          "    Source = Csv.Document(Parameter1,[Delimiter=\",\", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
-          "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
-          "in",
-          "    #\"Promoted Headers\"",
+          "        Source = Csv.Document(Parameter1,[Delimiter=\",\", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+          "        #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])",
+          "    in",
+          "        #\"Promoted Headers\"",
           "in",
           "    Source"
         ],
@@ -183,24 +187,40 @@
           }
         ],
         "expression": [
-          "let",
-          "    Source = #date(2022,1,1),",
-          "    Custom1 = List.Dates(",
-          "    Source,",
-          "    Number.From(DateTime.LocalNow()) - Number.From(Source),",
-          "    #duration(1,0,0,0)",
-          "),",
-          "    #\"Converted to Table\" = Table.FromList(Custom1, Splitter.SplitByNothing(), null, null, ExtraValues.Error),",
-          "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Converted to Table\",{{\"Column1\", type date}}),",
-          "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"Column1\", \"Date\"}}),",
-          "    #\"Inserted Year\" = Table.AddColumn(#\"Renamed Columns\", \"Year\", each Date.Year([Date]), Int64.Type),",
-          "    #\"Inserted Start of Month\" = Table.AddColumn(#\"Inserted Year\", \"Start of Month\", each Date.StartOfMonth([Date]), type date),",
-          "    #\"Inserted Start of Quarter\" = Table.AddColumn(#\"Inserted Start of Month\", \"Start of Quarter\", each Date.StartOfQuarter([Date]), type date)",
-          "in",
+          "let\r",
+          "    Source = #date(2022,1,1),\r",
+          "    Custom1 = List.Dates(\r",
+          "    Source,\r",
+          "    Number.From(DateTime.LocalNow()) - Number.From(Source),\r",
+          "    #duration(1,0,0,0)\r",
+          "),\r",
+          "    #\"Converted to Table\" = Table.FromList(Custom1, Splitter.SplitByNothing(), null, null, ExtraValues.Error),\r",
+          "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Converted to Table\",{{\"Column1\", type date}}),\r",
+          "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"Column1\", \"Date\"}}),\r",
+          "    #\"Inserted Year\" = Table.AddColumn(#\"Renamed Columns\", \"Year\", each Date.Year([Date]), Int64.Type),\r",
+          "    #\"Inserted Start of Month\" = Table.AddColumn(#\"Inserted Year\", \"Start of Month\", each Date.StartOfMonth([Date]), type date),\r",
+          "    #\"Inserted Start of Quarter\" = Table.AddColumn(#\"Inserted Start of Month\", \"Start of Quarter\", each Date.StartOfQuarter([Date]), type date)\r",
+          "in\r",
           "    #\"Inserted Start of Quarter\""
         ],
         "kind": "m",
         "lineageTag": "da40a3c5-c66b-4f88-b2e8-671141b2f921"
+      },
+      {
+        "name": "Path",
+        "annotations": [
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
+          },
+          {
+            "name": "PBI_ResultType",
+            "value": "Text"
+          }
+        ],
+        "expression": "\"D:\\Explore\\Datasets\\AdventureWorks Raw Data\" meta [IsParameterQuery=true, Type=\"Text\", IsParameterQueryRequired=true]",
+        "kind": "m",
+        "lineageTag": "c95b0d1c-9901-4b12-aeea-93f5dd3a8a0d"
       }
     ],
     "queryGroups": [
@@ -312,7 +332,11 @@
         "annotations": [
           {
             "name": "PBI_ResultType",
-            "value": "Table"
+            "value": "Exception"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
           }
         ],
         "columns": [
@@ -407,7 +431,7 @@
             "source": {
               "expression": [
                 "let",
-                "    Source = Csv.Document(File.Contents(\"D:\\Datasets\\AdventureWorks Raw Data\\AdventureWorks Territory Lookup.csv\"),[Delimiter=\",\", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    Source = Csv.Document(File.Contents(Path&\"\\AdventureWorks Territory Lookup.csv\"),[Delimiter=\",\", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
                 "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
                 "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"SalesTerritoryKey\", Int64.Type}, {\"Region\", type text}, {\"Country\", type text}, {\"Continent\", type text}}),",
                 "    #\"Renamed Columns\" = Table.RenameColumns(#\"Changed Type\",{{\"SalesTerritoryKey\", \"Sales Territory Key\"}})",
@@ -424,7 +448,11 @@
         "annotations": [
           {
             "name": "PBI_ResultType",
-            "value": "Table"
+            "value": "Exception"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
           }
         ],
         "columns": [
@@ -664,7 +692,7 @@
             "source": {
               "expression": [
                 "let",
-                "    Source = Csv.Document(File.Contents(\"D:\\Datasets\\AdventureWorks Raw Data\\AdventureWorks Product Lookup.csv\"),[Delimiter=\",\", Columns=11, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    Source = Csv.Document(File.Contents(Path&\"\\AdventureWorks Product Lookup.csv\"),[Delimiter=\",\", Columns=11, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
                 "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
                 "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"ProductKey\", Int64.Type}, {\"ProductSubcategoryKey\", Int64.Type}, {\"ProductSKU\", type text}, {\"ProductName\", type text}, {\"ModelName\", type text}, {\"ProductDescription\", type text}, {\"ProductColor\", type text}, {\"ProductSize\", type text}, {\"ProductStyle\", type text}, {\"ProductCost\", type number}, {\"ProductPrice\", type number}}),",
                 "    #\"Changed To Currency\" = Table.TransformColumnTypes(#\"Changed Type\",{{\"ProductCost\", Currency.Type}, {\"ProductPrice\", Currency.Type}}),",
@@ -685,7 +713,11 @@
         "annotations": [
           {
             "name": "PBI_ResultType",
-            "value": "Table"
+            "value": "Exception"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
           }
         ],
         "columns": [
@@ -726,7 +758,7 @@
             "source": {
               "expression": [
                 "let",
-                "    Source = Csv.Document(File.Contents(\"D:\\Datasets\\AdventureWorks Raw Data\\AdventureWorks Product Categories Lookup.csv\"),[Delimiter=\",\", Columns=2, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    Source = Csv.Document(File.Contents(Path&\"\\AdventureWorks Product Categories Lookup.csv\"),[Delimiter=\",\", Columns=2, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
                 "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
                 "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"ProductCategoryKey\", Int64.Type}, {\"CategoryName\", type text}})",
                 "in",
@@ -742,7 +774,11 @@
         "annotations": [
           {
             "name": "PBI_ResultType",
-            "value": "Table"
+            "value": "Exception"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
           }
         ],
         "columns": [
@@ -803,7 +839,7 @@
             "source": {
               "expression": [
                 "let",
-                "    Source = Csv.Document(File.Contents(\"D:\\Datasets\\AdventureWorks Raw Data\\AdventureWorks Product Subcategories Lookup.csv\"),[Delimiter=\",\", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    Source = Csv.Document(File.Contents(Path&\"\\AdventureWorks Product Subcategories Lookup.csv\"),[Delimiter=\",\", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
                 "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
                 "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"ProductSubcategoryKey\", Int64.Type}, {\"SubcategoryName\", type text}, {\"ProductCategoryKey\", Int64.Type}})",
                 "in",
@@ -819,7 +855,11 @@
         "annotations": [
           {
             "name": "PBI_ResultType",
-            "value": "Table"
+            "value": "Exception"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
           }
         ],
         "columns": [
@@ -1166,7 +1206,7 @@
             "source": {
               "expression": [
                 "let",
-                "    Source = Csv.Document(File.Contents(\"D:\\Datasets\\AdventureWorks Raw Data\\AdventureWorks Customer Lookup.csv\"),[Delimiter=\",\", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    Source = Csv.Document(File.Contents(Path&\"\\AdventureWorks Customer Lookup.csv\"),[Delimiter=\",\", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
                 "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
                 "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"CustomerKey\", Int64.Type}, {\"Prefix\", type text}, {\"FirstName\", type text}, {\"LastName\", type text}, {\"BirthDate\", type date}, {\"MaritalStatus\", type text}, {\"Gender\", type text}, {\"EmailAddress\", type text}, {\"AnnualIncome\", Int64.Type}, {\"TotalChildren\", Int64.Type}, {\"EducationLevel\", type text}, {\"Occupation\", type text}, {\"HomeOwner\", type text}}),",
                 "    #\"Removed Errors\" = Table.RemoveRowsWithErrors(#\"Changed Type\", {\"CustomerKey\"}),",
@@ -1190,7 +1230,11 @@
         "annotations": [
           {
             "name": "PBI_ResultType",
-            "value": "Table"
+            "value": "Exception"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
           }
         ],
         "columns": [
@@ -1475,7 +1519,7 @@
             "source": {
               "expression": [
                 "let",
-                "    Source = Csv.Document(File.Contents(\"D:\\Datasets\\AdventureWorks Raw Data\\AdventureWorks Calendar Lookup.csv\"),[Delimiter=\",\", Columns=1, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    Source = Csv.Document(File.Contents(Path&\"\\AdventureWorks Calendar Lookup.csv\"),[Delimiter=\",\", Columns=1, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
                 "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
                 "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"Date\", type date}}),",
                 "    #\"Inserted Day Name\" = Table.AddColumn(#\"Changed Type\", \"Day Name\", each Date.DayOfWeekName([Date]), type text),",
@@ -1499,7 +1543,11 @@
         "annotations": [
           {
             "name": "PBI_ResultType",
-            "value": "Table"
+            "value": "Exception"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
           }
         ],
         "columns": [
@@ -1683,7 +1731,7 @@
             "source": {
               "expression": [
                 "let",
-                "    Source = Folder.Files(\"D:\\Datasets\\AdventureWorks Raw Data\\Sales Data\"),",
+                "    Source = Folder.Files(Path&\"\\Sales Data\"),",
                 "    #\"Filtered Hidden Files1\" = Table.SelectRows(Source, each [Attributes]?[Hidden]? <> true),",
                 "    #\"Invoke Custom Function1\" = Table.AddColumn(#\"Filtered Hidden Files1\", \"Transform File\", each #\"Transform File\"([Content])),",
                 "    #\"Renamed Columns1\" = Table.RenameColumns(#\"Invoke Custom Function1\", {\"Name\", \"Source.Name\"}),",
@@ -1704,7 +1752,11 @@
         "annotations": [
           {
             "name": "PBI_ResultType",
-            "value": "Table"
+            "value": "Exception"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
           }
         ],
         "columns": [
@@ -1795,7 +1847,7 @@
             "source": {
               "expression": [
                 "let",
-                "    Source = Csv.Document(File.Contents(\"D:\\Datasets\\AdventureWorks Raw Data\\AdventureWorks Returns Data.csv\"),[Delimiter=\",\", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
+                "    Source = Csv.Document(File.Contents(Path&\"\\AdventureWorks Returns Data.csv\"),[Delimiter=\",\", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),",
                 "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
                 "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{{\"ReturnDate\", type date}, {\"TerritoryKey\", Int64.Type}, {\"ProductKey\", Int64.Type}, {\"ReturnQuantity\", Int64.Type}})",
                 "in",
@@ -1812,6 +1864,10 @@
           {
             "name": "PBI_ResultType",
             "value": "Table"
+          },
+          {
+            "name": "PBI_NavigationStepName",
+            "value": "Navigation"
           }
         ],
         "lineageTag": "ea2407e1-3e23-4f4b-a8e4-1f26867ba852",
@@ -2086,6 +2142,210 @@
             ],
             "formatString": "\\$#,0;(\\$#,0);\\$#,0",
             "lineageTag": "6dc3a02e-f042-4147-ab53-1031426ae1c7"
+          },
+          {
+            "name": "Total Cost",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-US\"}"
+              }
+            ],
+            "expression": [
+              "",
+              "SUMX(",
+              "    'Sales Data',",
+              "    'Sales Data'[OrderQuantity] * RELATED('Product Lookup'[ProductCost])",
+              ")"
+            ],
+            "formatString": "\\$#,0;(\\$#,0);\\$#,0",
+            "lineageTag": "22bee898-c6b8-4d60-af0e-82f76f54b8d4"
+          },
+          {
+            "name": "Total Profit",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-US\"}"
+              }
+            ],
+            "expression": [
+              "",
+              "[Total Revenue] - [Total Cost]"
+            ],
+            "formatString": "\\$#,0;(\\$#,0);\\$#,0",
+            "lineageTag": "7190e05b-6027-4c74-a2e1-15483b9de861"
+          },
+          {
+            "name": "YTD Revenue",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-US\"}"
+              }
+            ],
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Revenue],",
+              "    DATESYTD(",
+              "        'Calendar Lookup'[Date]",
+              "    )",
+              ")"
+            ],
+            "formatString": "\\$#,0;(\\$#,0);\\$#,0",
+            "lineageTag": "adf42c34-81e1-451c-9df1-9779d77fafd4"
+          },
+          {
+            "name": "Previous Month Revenue",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"currencyCulture\":\"en-US\"}"
+              }
+            ],
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Revenue],",
+              "    DATEADD(",
+              "        'Calendar Lookup'[Date],",
+              "        -1,",
+              "        MONTH",
+              "    )",
+              ")"
+            ],
+            "formatString": "\\$#,0;(\\$#,0);\\$#,0",
+            "lineageTag": "b9fd157b-aaf9-4020-bfb4-c315fa66252b"
+          },
+          {
+            "name": "Revenue Target",
+            "expression": [
+              "",
+              "[Previous Month Revenue] * 1.1"
+            ],
+            "formatString": "\\$#,0;(\\$#,0);\\$#,0",
+            "lineageTag": "216fa266-8c7e-4a8c-9d88-2d282d70d940"
+          },
+          {
+            "name": "10-day Rolling Revenue",
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Revenue],",
+              "    DATESINPERIOD(",
+              "        'Calendar Lookup'[Date],",
+              "        MAX(",
+              "            'Calendar Lookup'[Date]",
+              "        ),",
+              "        -10,",
+              "        DAY",
+              "    )",
+              ")"
+            ],
+            "formatString": "\\$#,0;(\\$#,0);\\$#,0",
+            "lineageTag": "1c04d533-c44e-4f65-b40a-dd9c2e3fb828"
+          },
+          {
+            "name": "Previous Month Returns",
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Returns],",
+              "    DATEADD(",
+              "        'Calendar Lookup'[Date],",
+              "        -1,",
+              "        MONTH",
+              "    )",
+              ")"
+            ],
+            "formatString": "0",
+            "lineageTag": "47f27ccb-a29a-45b2-8048-4b5cae5436b7"
+          },
+          {
+            "name": "Previous Month Orders",
+            "annotations": [
+              {
+                "name": "PBI_FormatHint",
+                "value": "{\"isGeneralNumber\":true}"
+              }
+            ],
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Orders],",
+              "    DATEADD(",
+              "        'Calendar Lookup'[Date],",
+              "        -1,",
+              "        MONTH",
+              "    )",
+              ")"
+            ],
+            "lineageTag": "22297629-16f5-473a-9c87-6e9c7b115395"
+          },
+          {
+            "name": "Previous Month Profit",
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Profit],",
+              "    DATEADD(",
+              "        'Calendar Lookup'[Date],",
+              "        -1,",
+              "        MONTH",
+              "    )",
+              ")"
+            ],
+            "formatString": "\\$#,0;(\\$#,0);\\$#,0",
+            "lineageTag": "6c00a7e7-6558-46ef-ae51-23f7325243d8"
+          },
+          {
+            "name": "Order Target",
+            "expression": [
+              "",
+              "[Previous Month Orders] * 1.1"
+            ],
+            "formatString": "0",
+            "lineageTag": "e998637e-6405-4b94-8026-e8d01ac0f520"
+          },
+          {
+            "name": "Profit Target",
+            "expression": [
+              "",
+              "[Previous Month Profit] * 1.1"
+            ],
+            "formatString": "\\$#,0;(\\$#,0);\\$#,0",
+            "lineageTag": "69183be5-6da3-4d2b-a0c6-5583eb7b9b10"
+          },
+          {
+            "name": "90-day Rolling Profit",
+            "expression": [
+              "",
+              "CALCULATE(",
+              "    [Total Profit],",
+              "    DATESINPERIOD(",
+              "        'Calendar Lookup'[Date],",
+              "        MAX(",
+              "            'Calendar Lookup'[Date]",
+              "        ),",
+              "        -90,",
+              "        DAY",
+              "    )",
+              ")"
+            ],
+            "formatString": "\\$#,0;(\\$#,0);\\$#,0",
+            "lineageTag": "34aee440-ddc2-4a4f-81f8-4c8a87bc38a0"
+          },
+          {
+            "name": "Max Dates",
+            "expression": [
+              "",
+              "LASTDATE(",
+              "    'Calendar Lookup'[Date]",
+              ")"
+            ],
+            "formatString": "General Date",
+            "lineageTag": "b816ceb8-7d37-48c4-b9f5-e472ace6e9a6"
           }
         ],
         "partitions": [
