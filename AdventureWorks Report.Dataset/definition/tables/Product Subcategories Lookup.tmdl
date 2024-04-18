@@ -1,0 +1,47 @@
+table 'Product Subcategories Lookup'
+	lineageTag: 80ec2dfb-8ac1-4a25-9c79-d4fdb328dc7a
+
+	column ProductSubcategoryKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: 64004109-4959-4735-95c4-2f18ec71ff10
+		summarizeBy: none
+		sourceColumn: ProductSubcategoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubcategoryName
+		dataType: string
+		lineageTag: ad3339fb-40cc-45f7-b87f-0100afb4adaf
+		summarizeBy: none
+		sourceColumn: SubcategoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCategoryKey
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3642be2d-1741-457e-a580-4479a8a95774
+		summarizeBy: none
+		sourceColumn: ProductCategoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Product Subcategories Lookup' = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(Path&"\AdventureWorks Product Subcategories Lookup.csv"),[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductSubcategoryKey", Int64.Type}, {"SubcategoryName", type text}, {"ProductCategoryKey", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

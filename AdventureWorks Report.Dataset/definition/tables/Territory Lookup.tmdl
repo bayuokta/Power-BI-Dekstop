@@ -1,0 +1,69 @@
+table 'Territory Lookup'
+	lineageTag: a87488dc-4917-45e0-b76f-40d64909d39d
+
+	column 'Sales Territory Key'
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: 5940f242-c3b7-4be6-87b5-7a017e4a13e9
+		summarizeBy: none
+		sourceColumn: Sales Territory Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 9100f4e0-a269-44ea-a928-eb1f36f0bf8e
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 38371130-1b6f-490e-a471-34371ca03991
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Continent
+		dataType: string
+		lineageTag: 891de73e-b438-410d-bd76-32e2220be914
+		dataCategory: Continent
+		summarizeBy: none
+		sourceColumn: Continent
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Territory Hierarchy'
+		lineageTag: 87b86ff7-86b6-4f7e-962c-86c55d86cdbf
+
+		level Continent
+			lineageTag: b8105bb7-7411-4fd5-b8c9-de34cf47a9a4
+			column: Continent
+
+		level Country
+			lineageTag: c50e208b-421b-4230-b105-37246fb2505f
+			column: Country
+
+		level Region
+			lineageTag: 490b2643-bf0d-4aae-8ab2-7c6a3130c825
+			column: Region
+
+	partition 'Territory Lookup' = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(Path&"\AdventureWorks Territory Lookup.csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"SalesTerritoryKey", Int64.Type}, {"Region", type text}, {"Country", type text}, {"Continent", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"SalesTerritoryKey", "Sales Territory Key"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+
