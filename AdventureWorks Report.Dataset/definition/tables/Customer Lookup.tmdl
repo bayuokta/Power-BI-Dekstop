@@ -1,6 +1,19 @@
 table 'Customer Lookup'
 	lineageTag: aafe2125-d6b6-4a27-9e4e-451da7c9b6b1
 
+	measure 'Full Name (Customer Detail)' =
+			
+			IF(
+			    HASONEVALUE(
+			        'Customer Lookup'[CustomerKey]
+			    ),
+			    MAX(
+			        'Customer Lookup'[Full Name]
+			    ),
+			    "Multiple Customers"
+			)
+		lineageTag: 10d5e545-d661-4988-af83-922013721ece
+
 	column CustomerKey
 		dataType: int64
 		isKey
@@ -229,6 +242,4 @@ table 'Customer Lookup'
 				    #"Capitalized Each Word Domain Name"
 
 	annotation PBI_ResultType = Exception
-
-	annotation PBI_NavigationStepName = Navigation
 

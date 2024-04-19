@@ -341,6 +341,59 @@ table 'Measure Table'
 		formatString: General Date
 		lineageTag: b816ceb8-7d37-48c4-b9f5-e472ace6e9a6
 
+	measure 'Total Orders (Customer Detail)' = ```
+			
+			IF(
+			    HASONEVALUE(
+			        'Customer Lookup'[CustomerKey]
+			    ),
+			    [Total Orders],
+			    "-"
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 3614efcc-400c-455a-ba50-53f740021577
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Total Revenue (Customer Detail)' =
+			
+			IF(
+			    HASONEVALUE(
+			        'Customer Lookup'[CustomerKey]
+			    ),
+			    [Total Revenue],
+			    "-"
+			)
+		formatString: #,0
+		lineageTag: 741e9009-c9c0-4bc3-8bd9-4448eb7855c5
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Order Target Gap' =
+			
+			[Total Orders] - [Order Target]
+		lineageTag: 88de2e31-0f12-4791-95ef-fe91ac01df98
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue Target Gap' =
+			
+			[Total Revenue] - [Revenue Target]
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 0fa223e8-4c17-4035-8cc7-13b2423a06d9
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Profit Target Gap' =
+			
+			[Total Profit] - [Profit Target]
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: ae2a6f77-f039-4819-8268-f81f1803e414
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
 	partition 'Measure Table' = m
 		mode: import
 		source =
@@ -352,6 +405,4 @@ table 'Measure Table'
 				    #"Removed Columns"
 
 	annotation PBI_ResultType = Table
-
-	annotation PBI_NavigationStepName = Navigation
 

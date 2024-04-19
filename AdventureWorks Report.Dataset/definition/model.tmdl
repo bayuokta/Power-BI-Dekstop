@@ -20,7 +20,7 @@ queryGroup 'Transform File from Sales Data\Helper Queries'
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBIDesktopVersion = 2.126.1261.0 (24.02)
+annotation PBIDesktopVersion = 2.128.952.0 (24.04)
 
 annotation PBI_QueryOrder = ["Territory Lookup","Product Lookup","Product Categories Lookup","Product Subcategories Lookup","Customer Lookup","Largest Asset Management Firms","Calendar Lookup","Rolling Calendar","Product Category Sales (Unpivot Demo)","Sales Data","Sample File","Parameter1","Transform Sample File","Transform File","Returns Data","Measure Table","Path"]
 

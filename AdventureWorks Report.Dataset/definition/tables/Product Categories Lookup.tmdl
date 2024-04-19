@@ -31,5 +31,3 @@ table 'Product Categories Lookup'
 
 	annotation PBI_ResultType = Exception
 
-	annotation PBI_NavigationStepName = Navigation
-

@@ -98,7 +98,7 @@ expression 'Rolling Calendar' =
 
 	annotation PBI_ResultType = Table
 
-expression Path = "D:\Explore\Datasets\AdventureWorks Raw Data" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+expression Path = "D:\Datasets\AdventureWorks Raw Data" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
 	lineageTag: c95b0d1c-9901-4b12-aeea-93f5dd3a8a0d
 
 	annotation PBI_NavigationStepName = Navigation

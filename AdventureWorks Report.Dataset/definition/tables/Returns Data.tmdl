@@ -60,5 +60,3 @@ table 'Returns Data'
 
 	annotation PBI_ResultType = Exception
 
-	annotation PBI_NavigationStepName = Navigation
-

@@ -160,5 +160,3 @@ table 'Product Lookup'
 
 	annotation PBI_ResultType = Exception
 
-	annotation PBI_NavigationStepName = Navigation
-
